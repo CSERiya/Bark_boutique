@@ -82,7 +82,7 @@ const UserList = ({ searchQuery }) => {
                 width: '30%', 
                 m: 1, 
                 '@media (max-width: 960px)': { width: '45%' },
-                '@media (max-width: 320px)': { width: '100%', height:'100%'} 
+                '@media (max-width: 600px)': { width: '100%', height:'100%'} 
               }}
             >
               {/* Card component for each dog */}
