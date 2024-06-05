@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { List, ListItem, CircularProgress, Card, CardMedia, Typography, Pagination, Box, useMediaQuery } from '@mui/material';
+import { List, ListItem, Card, CardMedia, Typography, Pagination, Box, useMediaQuery } from '@mui/material';
 import axios from 'axios';
+import Spinner from './Spinner'; 
 
+// UserList component to fetch and display a list of dog images
 const UserList = ({ searchQuery }) => {
+    
+  // State variables for dogs data, loading status, and current page 
   const [dogs, setDogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const dogsPerPage = 9;
 
+  // Fetch dogs data from the API when the component mounts/calls
   useEffect(() => {
     const fetchDogs = async () => {
       const headers = {
@@ -30,27 +35,37 @@ const UserList = ({ searchQuery }) => {
     fetchDogs();
   }, []);
 
+  // Handle pagination page change
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
+  // Filter the dogs based on the search query
   const filteredDogs = dogs.filter(dog =>
     dog.breeds[0]?.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Calculate the indexes for pagination
   const indexOfLastDog = currentPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const currentDogs = filteredDogs.slice(indexOfFirstDog, indexOfLastDog);
   const totalPages = Math.ceil(filteredDogs.length / dogsPerPage);
 
+  // Mobile responsiveness for pagination
   const isMobile = useMediaQuery('(max-width: 600px)');
 
+  // Show a loading spinner while data is being fetched
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <Spinner />
+      </Box>
+    );
   }
 
   return (
     <>
+      {/* List of dogs */}
       <List>
         <Box 
           display="flex" 
@@ -70,6 +85,7 @@ const UserList = ({ searchQuery }) => {
                 '@media (max-width: 320px)': { width: '100%', height:'100%'} 
               }}
             >
+              {/* Card component for each dog */}
               <Card sx={{ height: 320, width: '100%', borderRadius: '0.2cm' }}>
                 <CardMedia
                   component="img"
@@ -87,6 +103,8 @@ const UserList = ({ searchQuery }) => {
           ))}
         </Box>
       </List>
+
+      {/* Pagination component */}
       <Box display="flex" justifyContent="center">
         <Pagination 
           count={totalPages} 

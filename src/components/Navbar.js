@@ -10,6 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchBar from './SearchBar';
 
+// Styling for the search container
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -24,6 +25,7 @@ const Search = styled('div')(({ theme }) => ({
   alignItems: 'center',
 }));
 
+// Styling for the search icon wrapper
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   marginTop: '5px',
@@ -35,6 +37,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   flexDirection: 'column',
 }));
 
+// Styling for the input base
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   width: '50%',
@@ -51,15 +54,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// NavBar component
 const NavBar = ({ onSearch }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
+  // Toggle search bar visibility on search icon click
   const handleSearchIconClick = () => {
     setShowSearchBar((prev) => !prev);
   };
 
   return (
     <Box>
+
+        {/* AppBar containing the menu icon, title, and search icon */}
       <AppBar position="static">
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit">
@@ -80,6 +87,8 @@ const NavBar = ({ onSearch }) => {
           </Search>
         </Toolbar>
       </AppBar>
+
+       {/* Conditionally render the search bar based on the state */}
       {showSearchBar && <SearchBar onSearch={onSearch} />}
     </Box>
   );
